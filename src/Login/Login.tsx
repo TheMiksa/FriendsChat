@@ -16,6 +16,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  loginBlock: {
+    borderRadius: 2,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    padding: 5,
+  },
+  loginButton: {
+    backgroundColor: '#aeaee0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 30,
+    margin: 5,
+    borderRadius: 2,
+  },
 });
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
@@ -52,12 +67,7 @@ export const Login: React.FC = () => {
   return (
     <View style={styles.container}>
       <View
-      style={{
-        borderRadius: 2,
-        backgroundColor: '#f0f0f0',
-        alignItems: 'center',
-        padding: 5,
-      }}
+      style={styles.loginBlock}
     >
       <TextField
         onChangeText={(value: string) => setUserName(value.trim())}
@@ -70,18 +80,10 @@ export const Login: React.FC = () => {
         placeholder="Password"
       />
       <TouchableOpacity
-        style={{
-          backgroundColor: '#aeaee0',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 50,
-          height: 30,
-          margin: 5,
-          borderRadius: 2,
-        }}
+        style={styles.loginButton}
         onPress={onLogin}
       >
-        <View><Text>Login</Text></View>
+        <Text>Login</Text>
       </TouchableOpacity>
     </View>
     </View>

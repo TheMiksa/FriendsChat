@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     opacity: 0.8,
     margin: 4,
+    borderRadius: 2,
+    padding: 5,
   },
   messageList: {
     backgroundColor: '#ABCDEF',
