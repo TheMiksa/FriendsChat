@@ -5,12 +5,14 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue, orderByKey } from 'firebase/database';
 import { forIn } from 'lodash';
 import { Login } from './src/Login/Login';
-import database from './src/firebase/database';
 import firebaseConfig from './src/firebase/firebaseConfig';
+import { Provider } from 'react-redux';
+import { store } from './src/store/store';
 
 const app = initializeApp(firebaseConfig);
 
 function sendMessage(userId: string, text: string, msTime: number) {
+  const database = getDatabase();
   const reference = ref(database, 'friends-chat/messages');
   push(reference, {
     message: text,
@@ -43,10 +45,11 @@ export default function App() {
   const [userName, setUserName] = useState('');
   const [isNameEditing, setIsNameEditing] = useState(true);
 
-  const messagesRef = ref(database, 'friends-chat/messages');
-  const usersRef = ref(database, '/friens-chat/users');
   
   useEffect(() => {
+    const database = getDatabase();
+    const messagesRef = ref(database, 'friends-chat/messages');
+    const usersRef = ref(database, '/friens-chat/users');
     onValue(messagesRef, (s) => {
       const v = s.val();
 
@@ -68,7 +71,8 @@ export default function App() {
     });
   }, []);
   return (
-    <View style={styles.container}>
+    <Provider store={store}>
+      <View style={styles.container}>
       {/* <View>
         {userName.length < 1 || isNameEditing ? (
           <View
@@ -138,6 +142,7 @@ export default function App() {
       <Login />
       <StatusBar style="auto" />
     </View>
+    </Provider>
   );
 }
 

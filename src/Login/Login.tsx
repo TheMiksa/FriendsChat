@@ -1,26 +1,38 @@
 import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
-import database from '../firebase/database';
-import { ref, push } from 'firebase/database';
+import { ref, push, getDatabase } from 'firebase/database';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store/store';
+import { setUser } from '../store/actions';
+import { userSelector } from '../store/selectors';
 
 
 export const Login = () => {
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-    const [key, setKey] = useState<any>('');
-    const onLogin = () => {
-      const reference = ref(database, '/friens-chat/users');
+  const [userName, setUserName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [key, setKey] = useState<any>('');
 
-      push(reference, {
+  const store = useSelector(userSelector);
+  const dispatch = useDispatch();
+
+  const onLogin = () => {
+    const database = getDatabase();
+    const reference = ref(database, '/friens-chat/users');
+
+    push(reference, {
+      userName,
+      password,
+    }).
+    then(snap => {
+      const snapKey: string = snap.key || '';
+      setKey(snapKey);
+      dispatch(setUser({
+        userId: snapKey,
         userName,
-        password,
-      }).
-      then(snap => {
-        const snapKey = snap.key;
-        setKey(snapKey);
-      });
-    };
+      }));
+    });
+  };
 
   return (
     <View
@@ -56,6 +68,7 @@ export const Login = () => {
         <View><Text>Login</Text></View>
       </TouchableOpacity>
       <Text>{key}</Text>
+      <Text>{JSON.stringify(store)}</Text>
     </View>
   );
 };
