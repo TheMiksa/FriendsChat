@@ -1,4 +1,4 @@
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { ref, push, getDatabase } from 'firebase/database';
@@ -8,10 +8,18 @@ import { setUser } from '../store/actions';
 import { userSelector } from '../store/selectors';
 
 
-export const Login = () => {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export const Login = ({ navigation }) => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [key, setKey] = useState<any>('');
 
   const store = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -26,16 +34,19 @@ export const Login = () => {
     }).
     then(snap => {
       const snapKey: string = snap.key || '';
-      setKey(snapKey);
+
       dispatch(setUser({
         userId: snapKey,
         userName,
       }));
+
+      navigation.navigate('Home');
     });
   };
 
   return (
-    <View
+    <View style={styles.container}>
+      <View
       style={{
         borderRadius: 2,
         backgroundColor: '#f0f0f0',
@@ -67,8 +78,7 @@ export const Login = () => {
       >
         <View><Text>Login</Text></View>
       </TouchableOpacity>
-      <Text>{key}</Text>
-      <Text>{JSON.stringify(store)}</Text>
+    </View>
     </View>
   );
 };
