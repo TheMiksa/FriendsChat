@@ -5,19 +5,11 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue, orderByKey } from 'firebase/database';
 import { forIn } from 'lodash';
 import { Login } from './src/Login/Login';
+import database from './src/firebase/database';
+import firebaseConfig from './src/firebase/firebaseConfig';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDhQbnYErbsQe37RAkDY-1jXo1xNswakIw",
-  authDomain: "miksa-friends-chat.firebaseapp.com",
-  projectId: "miksa-friends-chat",
-  storageBucket: "miksa-friends-chat.appspot.com",
-  messagingSenderId: "649844966884",
-  appId: "1:649844966884:web:b8be7f42863209e1af73f1"
-};
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase();
+
 function sendMessage(userId: string, text: string, msTime: number) {
   const reference = ref(database, 'friends-chat/messages');
   push(reference, {
@@ -52,12 +44,14 @@ export default function App() {
   const [isNameEditing, setIsNameEditing] = useState(true);
 
   const messagesRef = ref(database, 'friends-chat/messages');
+  const usersRef = ref(database, '/friens-chat/users');
   
   useEffect(() => {
     onValue(messagesRef, (s) => {
       const v = s.val();
 
       const newMessages: Array<Message> = [];
+
       forIn(v, (val: Message2, key: string) => {
         newMessages.push({
           userId: val.userId,
@@ -67,6 +61,10 @@ export default function App() {
         });
       })
       setMessages(newMessages);
+    });
+
+    onValue(usersRef, s => {
+      const v = s.val();
     });
   }, []);
   return (
