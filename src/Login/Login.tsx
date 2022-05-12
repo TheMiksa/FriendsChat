@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import database from '../firebase/database';
 import { ref, push } from 'firebase/database';
-import { FirebaseMessaging } from 'firebase/'
 
 
 export const Login = () => {
