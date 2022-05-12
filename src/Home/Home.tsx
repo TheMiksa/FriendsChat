@@ -16,6 +16,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  messageBlock: {
+    backgroundColor: '#EEEEEE',
+    opacity: 0.8,
+    margin: 4,
+  },
+  messageList: {
+    backgroundColor: '#ABCDEF',
+    width: '100%',
+  },
 });
 
 function sendMessage(userId: string, text: string, msTime: number) {
@@ -78,23 +87,13 @@ export const Home: React.FC = () => {
 
   return (
     <View style={styles.container}>
-    <View>
-        <View>
-        <Text>{user.userName}</Text>
-    <View style={{
-      height: 500,
-    }}>
-    <Text>Messages:</Text>
       <FlatList
         renderItem={(value) => {
           const item: Message = value.item;
           return (
           <View
             key={item.id}
-            style={{
-              backgroundColor: 'tomato',
-              margin: 4,
-            }}
+            style={styles.messageBlock}
           >
             <Text>{item.userId}:</Text>
             <Text>{item.message}</Text>
@@ -103,18 +102,13 @@ export const Home: React.FC = () => {
         );
       }}
         data={messages}
-        style={{
-          backgroundColor: 'olive',
-        }}
+        style={styles.messageList}
       />
-    </View>
     <TouchableOpacity
       onPress={() => sendMessage(user.userName, text, Date.now())}
     >
       <Text>Send message</Text>
     </TouchableOpacity>
-        </View>
-    </View>
     <StatusBar style="auto" />
   </View>
   );
