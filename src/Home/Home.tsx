@@ -5,6 +5,8 @@ import { getDatabase, push, ref, onValue } from 'firebase/database';
 import { forIn } from 'lodash';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../store/selectors';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
 
 const styles = StyleSheet.create({
@@ -38,7 +40,10 @@ type Message2 = {
   msTime: number,
 };
 
-export const Home = () => {
+
+type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
+
+export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [text, setText] = useState('34234sfsfsdfsfsfsdfdsf');
 
@@ -113,4 +118,4 @@ export const Home = () => {
     <StatusBar style="auto" />
   </View>
   );
-}
+};

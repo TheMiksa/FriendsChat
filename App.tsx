@@ -7,8 +7,13 @@ import { store } from './src/store/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+export type RootStackParamList = {
+  Home: undefined,
+  Login: undefined,
+};
+
 const app = initializeApp(firebaseConfig);
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (

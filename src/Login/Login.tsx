@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { ref, push, getDatabase } from 'firebase/database';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
 import { setUser } from '../store/actions';
 import { userSelector } from '../store/selectors';
-
+import { RootStackParamList } from '../../App';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,12 +18,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Login = ({ navigation }) => {
+type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
+
+export const Login: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const store = useSelector(userSelector);
   const dispatch = useDispatch();
+
+  const navigation = useNavigation<LoginScreenProps>();
 
   const onLogin = () => {
     const database = getDatabase();
