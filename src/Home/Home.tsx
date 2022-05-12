@@ -6,6 +6,7 @@ import { forIn } from 'lodash';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
+import { MessageItem } from '../common/MessageItem/MessageItem';
 
 
 const styles = StyleSheet.create({
@@ -15,20 +16,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  messageBlock: {
-    backgroundColor: '#EEEEEE',
-    opacity: 0.8,
-    margin: 4,
-    borderRadius: 2,
-    padding: 5,
-  },
   messageList: {
     backgroundColor: '#ABCDEF',
     width: '100%',
   },
 });
 
-type Message = {
+export type Message = {
   userId: string,
   id: string,
   message: string,
@@ -78,15 +72,9 @@ export const Home: React.FC = () => {
       <FlatList
         renderItem={(value) => {
           const item: Message = value.item;
+          
           return (
-          <View
-            key={item.id}
-            style={styles.messageBlock}
-          >
-            <Text>{item.userId}:</Text>
-            <Text>{item.message}</Text>
-            <Text>{item.msTime}</Text>
-          </View>
+          <MessageItem item={item} />
         );
       }}
         data={messages}
