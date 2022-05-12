@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
-import { getDatabase, push, ref, onValue } from 'firebase/database';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { getDatabase, ref, onValue } from 'firebase/database';
 import { forIn } from 'lodash';
-import { useSelector } from 'react-redux';
-import { userSelector } from '../store/selectors';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
+import { MessageForm } from '../common/MessageForm/MessageForm';
 
 
 const styles = StyleSheet.create({
@@ -29,16 +28,6 @@ const styles = StyleSheet.create({
   },
 });
 
-function sendMessage(userId: string, text: string, msTime: number) {
-  const database = getDatabase();
-  const reference = ref(database, 'friends-chat/messages');
-  push(reference, {
-    message: text,
-    userId,
-    msTime,
-  });
-}
-
 type Message = {
   userId: string,
   id: string,
@@ -56,15 +45,12 @@ type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
-  const [text, setText] = useState('34234sfsfsdfsfsfsdfdsf');
 
-  const user = useSelector(userSelector);
-
-  
   useEffect(() => {
     const database = getDatabase();
     const messagesRef = ref(database, 'friends-chat/messages');
     const usersRef = ref(database, '/friens-chat/users');
+
     onValue(messagesRef, (s) => {
       const v = s.val();
 
@@ -106,11 +92,7 @@ export const Home: React.FC = () => {
         data={messages}
         style={styles.messageList}
       />
-    <TouchableOpacity
-      onPress={() => sendMessage(user.userName, text, Date.now())}
-    >
-      <Text>Send message</Text>
-    </TouchableOpacity>
+      <MessageForm />
     <StatusBar style="auto" />
   </View>
   );
