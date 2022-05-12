@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, FlatLi
 import { initializeApp } from 'firebase/app';
 import { getDatabase, push, ref, onValue, orderByKey } from 'firebase/database';
 import { forIn } from 'lodash';
+import { Login } from './src/Login/Login';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDhQbnYErbsQe37RAkDY-1jXo1xNswakIw",
@@ -70,7 +71,7 @@ export default function App() {
   }, []);
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View>
         {userName.length < 1 || isNameEditing ? (
           <View
             style={{
@@ -135,7 +136,8 @@ export default function App() {
       </TouchableOpacity>
           </View>
         )}
-      </View>
+      </View> */}
+      <Login />
       <StatusBar style="auto" />
     </View>
   );
