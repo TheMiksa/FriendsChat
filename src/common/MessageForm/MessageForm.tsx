@@ -10,12 +10,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFDD',
     width: '100%',
     position: 'relative',
-    height: 50,
   },
   textField: {
     width: '100%',
     margin: 0,
-    height: 50,
+    minHeight: 50,
     paddingRight: 65,
     paddingLeft: 5,
   },
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDFFF',
     position: 'absolute',
     right: 0,
-    height: 50,
+    height: '100%',
     width: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -52,6 +51,7 @@ export const MessageForm = () => {
         onChangeText={setMessage}
         value={message}
         style={styles.textField}
+        multiline
       />
       <TouchableOpacity
         onPress={() => sendMessage(user.userName, message, Date.now())}

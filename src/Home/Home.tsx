@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ABCDEF',
     width: '100%',
   },
+  noMessage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export type Message = {
@@ -62,15 +67,25 @@ export const Home: React.FC = () => {
       setMessages(newMessages);
     });
 
-    onValue(usersRef, s => {
-      const v = s.val();
-    });
+    // onValue(usersRef, s => {
+    //   const v = s.val();
+    // });
   }, []);
   
+  const NoMessages = (
+    <View style={styles.noMessage}>
+      <Text>Nobody has sent message :(</Text>
+    </View>
+  )
 
   return (
     <View style={styles.container}>
       <FlatList
+        ListEmptyComponent={NoMessages}
+        inverted
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
         renderItem={(value) => {
           const item: Message = value.item;
 
@@ -78,7 +93,7 @@ export const Home: React.FC = () => {
           <MessageItem item={item} />
         );
       }}
-        data={messages}
+        data={messages.reverse()}
         style={styles.messageList}
       />
       <MessageForm />

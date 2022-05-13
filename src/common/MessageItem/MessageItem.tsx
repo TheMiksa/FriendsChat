@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import moment from "moment";
 import type { Message } from "../../Home/Home";
 
 const styles = StyleSheet.create({
@@ -25,7 +26,7 @@ export const MessageItem = (props: MessageItemProps) => {
     >
       <Text>{item.userId}:</Text>
       <Text>{item.message}</Text>
-      <Text>{item.msTime}</Text>
+      <Text>{moment(item.msTime).format('YYYY MM DD : HH:MM:ss.SSS')}</Text>
     </View>
   );
 }

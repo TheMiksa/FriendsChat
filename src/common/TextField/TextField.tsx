@@ -5,6 +5,7 @@ type TextField = {
   value: string,
   style?: object,
   placeholder?: string,
+  multiline?: boolean,
   props?: any,
 }
 
@@ -16,13 +17,14 @@ const ownStyles = {
   margin: 5,
 };
 
-export const TextField = ({ onChangeText, value, style, placeholder, ...props}: TextField) => {
+export const TextField = ({ onChangeText, value, style, placeholder, multiline = false, ...props}: TextField) => {
 
   return (
     <TextInput
       onChangeText={onChangeText}
       value={value}
       placeholder={placeholder}
+      multiline={multiline}
       style={{
         ...ownStyles,
         ...style,
