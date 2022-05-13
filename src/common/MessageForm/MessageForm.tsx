@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     width: '100%',
     margin: 0,
     height: 50,
+    paddingRight: 65,
+    paddingLeft: 5,
   },
   sendButton: {
     backgroundColor: '#DDDFFF',
