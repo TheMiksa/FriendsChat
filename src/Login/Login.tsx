@@ -8,6 +8,7 @@ import { userSelector } from '../store/selectors';
 import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { usersRoute } from '../constants/routesAPI';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +47,7 @@ export const Login: React.FC = () => {
 
   const onLogin = () => {
     const database = getDatabase();
-    const reference = ref(database, '/friens-chat/users');
+    const reference = ref(database, usersRoute);
 
     push(reference, {
       userName,

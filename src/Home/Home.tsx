@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
 import { MessageItem } from '../common/MessageItem/MessageItem';
+import { usersRoute, messagesRoute } from '../constants/routesAPI';
 
 
 const styles = StyleSheet.create({
@@ -42,8 +43,8 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     const database = getDatabase();
-    const messagesRef = ref(database, 'friends-chat/messages');
-    const usersRef = ref(database, '/friens-chat/users');
+    const messagesRef = ref(database, messagesRoute);
+    const usersRef = ref(database, usersRoute);
 
     onValue(messagesRef, (s) => {
       const v = s.val();
@@ -72,7 +73,7 @@ export const Home: React.FC = () => {
       <FlatList
         renderItem={(value) => {
           const item: Message = value.item;
-          
+
           return (
           <MessageItem item={item} />
         );
