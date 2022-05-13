@@ -5,9 +5,9 @@ import { ref, push, getDatabase } from 'firebase/database';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser } from '../store/actions';
 import { userSelector } from '../store/selectors';
-import { RootStackParamList } from '../../App';
+import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const styles = StyleSheet.create({
   container: {
