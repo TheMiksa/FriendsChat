@@ -24,7 +24,7 @@ export const MessageItem = (props: MessageItemProps) => {
       key={item.id}
       style={styles.container}
     >
-      <Text>{item.userId}:</Text>
+      <Text>{item.userName}:</Text>
       <Text>{item.message}</Text>
       <Text>{moment(item.msTime).format('YYYY MM DD : HH:MM:ss.SSS')}</Text>
     </View>

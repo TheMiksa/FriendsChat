@@ -34,12 +34,12 @@ export const MessageForm = () => {
 
   const user = useSelector(userSelector);
 
-  function sendMessage(userId: string, text: string, msTime: number) {
+  function sendMessage(userName: string, text: string, msTime: number) {
     const database = getDatabase();
     const reference = ref(database, 'friends-chat/messages');
     push(reference, {
       message: text,
-      userId,
+      userName,
       msTime,
     }).
     then(() => setMessage(''));

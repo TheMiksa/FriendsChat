@@ -1,10 +1,7 @@
+import { User } from "./types";
 
-type SetUser = {
-  userId: string,
-  userName: string,
-};
 
-export const setUser = (payload: SetUser) => ({
-  type: 'SET_USER',
+export const logIn = (payload: User) => ({
+  type: 'LOG_IN',
   payload,
 });

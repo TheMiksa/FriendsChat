@@ -1,17 +1,16 @@
 import { store } from "./store"
+import { Action } from "./types";
 
 export const userStore = {
   userName: '',
-  userId: '',
 };
-export const userReducer = (store = userStore, action) => {
+export const userReducer = (store = userStore, action: Action) => {
   switch(action.type) {
-    case 'SET_USER': {
-      const { userId, userName } = action.payload;
+    case 'LOG_IN': {
+      const { userName } = action.payload;
 
     return {
       ...store,
-      userId,
       userName,
     };
     }

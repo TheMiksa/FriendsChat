@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
 });
 
 export type Message = {
-  userId: string,
+  userName: string,
   id: string,
   message: string,
   msTime: number,
 };
 type Message2 = {
-  userId: string,
+  userName: string,
   message: string,
   msTime: number,
 };
@@ -49,7 +49,6 @@ export const Home: React.FC = () => {
   useEffect(() => {
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
-    const usersRef = ref(database, usersRoute);
 
     onValue(messagesRef, (s) => {
       const v = s.val();
@@ -58,18 +57,14 @@ export const Home: React.FC = () => {
 
       forIn(v, (val: Message2, key: string) => {
         newMessages.push({
-          userId: val.userId,
+          userName: val.userName,
           message: val.message,
           msTime: val.msTime,
           id: key,
         });
       })
-      setMessages(newMessages);
+      setMessages(newMessages.reverse());
     });
-
-    // onValue(usersRef, s => {
-    //   const v = s.val();
-    // });
   }, []);
   
   const NoMessages = (
@@ -93,7 +88,7 @@ export const Home: React.FC = () => {
           <MessageItem item={item} />
         );
       }}
-        data={messages.reverse()}
+        data={messages}
         style={styles.messageList}
       />
       <MessageForm />

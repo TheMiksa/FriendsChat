@@ -1,49 +1,22 @@
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
-import { ref, push, getDatabase } from 'firebase/database';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../store/actions';
+import { logIn } from '../store/actions';
 import { userSelector } from '../store/selectors';
 import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { usersRoute } from '../constants/routesAPI';
-import { initializeApp } from 'firebase/app';
-import firebaseConfig from '../firebase/firebaseConfig';
-
-initializeApp(firebaseConfig);
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loginBlock: {
-    borderRadius: 2,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-    padding: 5,
-  },
-  loginButton: {
-    backgroundColor: '#aeaee0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 50,
-    height: 30,
-    margin: 5,
-    borderRadius: 2,
-  },
-});
+import { getFirestore, setDoc, doc } from 'firebase/firestore';
+import styles from './Login.styles';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
 export const Login: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [logining, setLogining] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const store = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -51,30 +24,40 @@ export const Login: React.FC = () => {
   const navigation = useNavigation<LoginScreenProps>();
 
   const onLogin = () => {
-    const database = getDatabase();
-    const reference = ref(database, usersRoute);
 
-    push(reference, {
+    setLogining(true);
+    const firestore = getFirestore();
+
+    setDoc(doc(firestore, "users", userName), {
       userName,
       password,
     }).
-    then(snap => {
-      const snapKey: string = snap.key || '';
-
-      dispatch(setUser({
-        userId: snapKey,
-        userName,
-      }));
+    then(() => {
+      dispatch(logIn({ userName }));
 
       navigation.navigate('Home');
+    }).
+    catch(() => {
+      setError(true);
+      setLogining(false);
     });
   };
 
+  if (logining) {
+    return (
+      <View style={styles.logining}>
+        <Text>...logining</Text>
+      </View>
+    )
+  }
   return (
     <View style={styles.container}>
       <View
       style={styles.loginBlock}
     >
+      {error && (
+        <Text style={{ color: 'tomato' }}>Something has wrong, try again later</Text>
+      )}
       <TextField
         onChangeText={(value: string) => setUserName(value.trim())}
         value={userName}
