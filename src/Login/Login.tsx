@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
     then(() => {
       dispatch(logIn({ userName }));
 
-      navigation.navigate('Home');
+      navigation.goBack();
     }).
     catch(() => {
       setError(true);

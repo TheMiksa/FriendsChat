@@ -8,6 +8,9 @@ import { RootStackParamList } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
 import { MessageItem } from '../common/MessageItem/MessageItem';
 import { usersRoute, messagesRoute } from '../constants';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { userSelector } from '../store/selectors';
 
 
 const styles = StyleSheet.create({
@@ -45,8 +48,14 @@ type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
+  
+  const user = useSelector(userSelector);
+  const navigation = useNavigation<HomeScreenProps>();
 
   useEffect(() => {
+
+    if (user.userName) {
+
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
 
@@ -65,7 +74,10 @@ export const Home: React.FC = () => {
       })
       setMessages(newMessages.reverse());
     });
-  }, []);
+    } else {
+      navigation.navigate('Login');
+    }
+  }, [user]);
   
   const NoMessages = (
     <View style={styles.noMessage}>
