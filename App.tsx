@@ -12,7 +12,7 @@ export type RootStackParamList = {
   Login: undefined,
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {

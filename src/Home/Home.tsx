@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
 import { MessageItem } from '../common/MessageItem/MessageItem';
-import { usersRoute, messagesRoute } from '../constants/routesAPI';
+import { usersRoute, messagesRoute } from '../constants';
 
 
 const styles = StyleSheet.create({

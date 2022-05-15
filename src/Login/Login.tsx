@@ -9,6 +9,11 @@ import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usersRoute } from '../constants/routesAPI';
+import { initializeApp } from 'firebase/app';
+import firebaseConfig from '../firebase/firebaseConfig';
+
+initializeApp(firebaseConfig);
+
 
 const styles = StyleSheet.create({
   container: {
