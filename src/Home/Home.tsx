@@ -11,6 +11,7 @@ import { usersRoute, messagesRoute } from '../constants';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { userSelector } from '../store/selectors';
+import { Loading } from '../common/Loading/Loading';
 
 
 const styles = StyleSheet.create({
@@ -48,7 +49,7 @@ type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
-  const [fetching, setFetching] = useState<boolean>(false);
+  const [fetching, setFetching] = useState<boolean>(true);
   
   const user = useSelector(userSelector);
   const navigation = useNavigation<HomeScreenProps>();
@@ -74,6 +75,7 @@ export const Home: React.FC = () => {
         });
       })
       setMessages(newMessages.reverse());
+      setFetching(false);
     });
     } else {
       navigation.navigate('Login');
@@ -85,6 +87,12 @@ export const Home: React.FC = () => {
       <Text>Nobody has sent message :(</Text>
     </View>
   )
+
+  if  (fetching) {
+    return (
+      <Loading />
+    );
+  }
 
   return (
     <View style={styles.container}>
