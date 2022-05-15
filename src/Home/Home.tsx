@@ -48,6 +48,7 @@ type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
+  const [fetching, setFetching] = useState<boolean>(false);
   
   const user = useSelector(userSelector);
   const navigation = useNavigation<HomeScreenProps>();

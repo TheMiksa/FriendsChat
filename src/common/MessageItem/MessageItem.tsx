@@ -16,7 +16,7 @@ type MessageItemProps = {
   item: Message,
 }
 
-export const MessageItem = (props: MessageItemProps) => {
+export const MessageItem: React.FC<MessageItemProps> = (props: MessageItemProps) => {
   const { item } = props;
 
   return (

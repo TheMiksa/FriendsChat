@@ -22,11 +22,6 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 2,
   },
-  logining: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   error: {
     color: 'tomato',
     justifyContent: 'center',

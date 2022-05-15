@@ -1,6 +1,6 @@
 import { TextInput } from "react-native";
 
-type TextField = {
+type TextFieldProps = {
   onChangeText: (value: string) => void,
   value: string,
   style?: object,
@@ -17,9 +17,9 @@ const ownStyles = {
   margin: 5,
 };
 
-export const TextField = ({ onChangeText, value, style, placeholder, multiline = false, ...props}: TextField) => {
-
-  return (
+export const TextField: React.FC<TextFieldProps> = (
+  { onChangeText, value, style, placeholder, multiline = false, ...props},
+  ) => (
     <TextInput
       onChangeText={onChangeText}
       value={value}
@@ -32,4 +32,3 @@ export const TextField = ({ onChangeText, value, style, placeholder, multiline =
       {...props}
     />
   );
-};

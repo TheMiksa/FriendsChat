@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import styles from './Login.styles';
+import { Loading } from '../common/Loading/Loading';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
@@ -45,9 +46,7 @@ export const Login: React.FC = () => {
 
   if (logining) {
     return (
-      <View style={styles.logining}>
-        <Text>...logining</Text>
-      </View>
+      <Loading text='...logining' />
     )
   }
   return (
