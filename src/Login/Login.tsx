@@ -10,6 +10,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import styles from './Login.styles';
 import { Loading } from '../common/Loading/Loading';
+import { loginValidator } from '../helpers/heplers';
+import { Button } from '../common/Button/Button';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
@@ -18,6 +20,8 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [logining, setLogining] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
   const store = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -44,7 +48,14 @@ export const Login: React.FC = () => {
     });
   };
 
-  const onSignIn = () => {};
+  const onSignIn = () => {
+    const validatedLogin = loginValidator(userName);
+    if (validatedLogin.isValid) {
+      console.log('signing in----');
+    } else {
+      setLoginError(validatedLogin.errorMessage);
+    }
+  };
 
   if (logining) {
     return (
@@ -60,28 +71,34 @@ export const Login: React.FC = () => {
         <Text style={{ color: 'tomato' }}>Something has wrong, try again later</Text>
       )}
       <TextField
-        onChangeText={(value: string) => setUserName(value.trim())}
+        onChangeText={(value: string) => {
+          setUserName(value.trim());
+          setLoginError('');
+        }}
+        errorMessage={loginError}
         value={userName}
         placeholder="User Name"
       />
       <TextField
-        onChangeText={(value: string) => setPassword(value.trim())}
+        onChangeText={(value: string) => {
+          setPassword(value.trim());
+          setPasswordError('');
+        }}
+        errorMessage={passwordError}
         value={password}
         placeholder="Password"
       />
       <View style={styles.buttonsBlock}>
-        <TouchableOpacity
-          style={styles.loginButton}
+        <Button
           onPress={onLogIn}
-        >
-          <Text>Log in</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.loginButton}
+          disabled={!!loginError || !!passwordError}
+          title="Log in"
+        />
+        <Button
           onPress={onSignIn}
-        >
-          <Text>Sign in</Text>
-        </TouchableOpacity>
+          disabled={!!loginError || !!passwordError}
+          title="Sign in"
+        />
       </View>
     </View>
     </View>

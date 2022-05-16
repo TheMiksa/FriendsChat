@@ -18,16 +18,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: 200,
   },
-  loginButton: {
-    backgroundColor: '#aeaee0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: 50,
-    height: 30,
-    padding: 5,
-    margin: 5,
-    borderRadius: 2,
-  },
   error: {
     color: 'tomato',
     justifyContent: 'center',
