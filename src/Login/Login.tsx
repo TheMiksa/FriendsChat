@@ -24,7 +24,7 @@ export const Login: React.FC = () => {
 
   const navigation = useNavigation<LoginScreenProps>();
 
-  const onLogin = () => {
+  const onLogIn = () => {
 
     setLogining(true);
     const firestore = getFirestore();
@@ -43,6 +43,8 @@ export const Login: React.FC = () => {
       setLogining(false);
     });
   };
+
+  const onSignIn = () => {};
 
   if (logining) {
     return (
@@ -67,12 +69,20 @@ export const Login: React.FC = () => {
         value={password}
         placeholder="Password"
       />
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={onLogin}
-      >
-        <Text>Login</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsBlock}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={onLogIn}
+        >
+          <Text>Log in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={onSignIn}
+        >
+          <Text>Sign in</Text>
+        </TouchableOpacity>
+      </View>
     </View>
     </View>
   );
