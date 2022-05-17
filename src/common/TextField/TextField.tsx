@@ -3,7 +3,7 @@ import { View, TextInput, Text, StyleSheet } from "react-native";
 type TextFieldProps = {
   onChangeText: (value: string) => void,
   value: string,
-  style?: { errorMessage?: object, textInput?: object },
+  style?: { container?: object, errorMessage?: object, textInput?: object },
   placeholder?: string,
   multiline?: boolean,
   maxLength?: number,
@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
 export const TextField: React.FC<TextFieldProps> = (
   { onChangeText, value, style, placeholder, multiline, maxLength, errorMessage, disabled, ...props},
   ) => (
-    <View style={styles.container}>
+    <View style={{
+      ...styles.container,
+      ...style?.container,
+    }}>
       <TextInput
       onChangeText={onChangeText}
       value={value}

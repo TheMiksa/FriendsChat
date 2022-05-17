@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
 import { MessageItem } from '../common/MessageItem/MessageItem';
-import { usersRoute, messagesRoute } from '../constants';
+import { messagesRoute } from '../constants';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { userSelector } from '../store/selectors';

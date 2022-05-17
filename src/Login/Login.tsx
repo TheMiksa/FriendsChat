@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,7 +7,7 @@ import { userSelector } from '../store/selectors';
 import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { getFirestore, setDoc, doc, collection, getDoc } from 'firebase/firestore';
+import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
 import styles from './Login.styles';
 import { Loading } from '../common/Loading/Loading';
 import { loginValidator, passwordValidator } from '../helpers/heplers';

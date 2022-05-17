@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'relative',
   },
+  textFieldContainer: {
+    margin: 0,
+    width: 'auto',
+  },
   textField: {
     width: '100%',
     margin: 0,
@@ -50,7 +54,7 @@ export const MessageForm = () => {
       <TextField
         onChangeText={setMessage}
         value={message}
-        style={styles.textField}
+        style={{ container: styles.textFieldContainer, textInput: styles.textField }}
         multiline
       />
       <TouchableOpacity
