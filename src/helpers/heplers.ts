@@ -30,13 +30,13 @@ export const passwordValidator = (password: string, isNew: boolean = false) => {
     result.isValid = false;
     result.errorMessage = 'Password can contain only numbers, letters of the English alphabet and symbols !@#$%^&8*()_+=-';
   } else if (isNew
-    && !password.match(/^[!@#$%^&8*()_+=-]+$/) 
-    && !password.match(/^[0-9]$/)
-    && !password.match(/^[a-z]$/)
-    && !password.match(/^[A-Z]$/)
+    && !password.match(/[!@#$%^&8*()_+=-]/) 
+    || !password.match(/[0-9]/)
+    || !password.match(/[a-z]/)
+    || !password.match(/[A-Z]/)
     ) {
       result.isValid = false;
-      result.errorMessage = 'Password can contain at least one digit, letter and symbol';  
+      result.errorMessage = 'Password should contain at least one digit, lower letter, capitalized letter and symbol';  
   }
 
   return result;
