@@ -1,5 +1,5 @@
 import { Text, View } from 'react-native';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { logIn } from '../store/actions';
@@ -22,6 +22,8 @@ export const Login: React.FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+
+  const passwordInputRef = useRef<any>();
 
   const store = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -126,6 +128,9 @@ export const Login: React.FC = () => {
         errorMessage={loginError}
         value={userName}
         placeholder="User Name"
+        onSubmitEditing={() => {
+          passwordInputRef.current?.focus?.();
+        }}
       />
       <TextField
         onChangeText={(value: string) => {
@@ -135,6 +140,9 @@ export const Login: React.FC = () => {
         errorMessage={passwordError}
         value={password}
         placeholder="Password"
+        inputRef={input => {
+          passwordInputRef.current = input;
+        }}
       />
       <View style={styles.buttonsBlock}>
         <Button
