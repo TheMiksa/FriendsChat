@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useRef, useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,29 +35,29 @@ export const Login: React.FC = () => {
 
     const firestore = getFirestore();
     const userRef = doc(firestore, "users", userName);
-  
+
     getDoc(userRef).
-    then(snap => {
-      if  (snap.exists()) {
+      then(snap => {
+        if (snap.exists()) {
 
-        if (snap.data()?.password === password) {
+          if (snap.data()?.password === password) {
 
-          dispatch(logIn({ userName }));   
-          navigation.goBack();
+            dispatch(logIn({ userName }));
+            navigation.goBack();
 
+          } else {
+            setLogining(false);
+            setPasswordError('Password is not correct');
+          }
         } else {
           setLogining(false);
-          setPasswordError('Password is not correct');
+          setLoginError(`There is no user ${userName}`);
         }
-      } else {
+      }).
+      catch(() => {
+        setError(true);
         setLogining(false);
-        setLoginError(`There is no user ${userName}`);
-      }
-    }).
-    catch(() => {
-      setError(true);
-      setLogining(false);
-    });
+      });
   };
 
   const onSignIn = () => {
@@ -65,31 +65,31 @@ export const Login: React.FC = () => {
 
     const firestore = getFirestore();
     const userRef = doc(firestore, "users", userName);
-  
+
     getDoc(userRef).
-    then(snap => {
-      if  (snap.exists()) {
+      then(snap => {
+        if (snap.exists()) {
           setLogining(false);
           setLoginError(`User name ${userName} has been already taken`);
-      } else {
-        setDoc(userRef, {
-          userName,
-          password,
-        }).
-        then(() => {
-          dispatch(logIn({ userName }));
-          navigation.goBack();
-        }).
-        catch(() => {
-          setError(true);
-          setLogining(false);
-        });
-      }
-    }).
-    catch(() => {
-      setError(true);
-      setLogining(false);
-    });
+        } else {
+          setDoc(userRef, {
+            userName,
+            password,
+          }).
+            then(() => {
+              dispatch(logIn({ userName }));
+              navigation.goBack();
+            }).
+            catch(() => {
+              setError(true);
+              setLogining(false);
+            });
+        }
+      }).
+      catch(() => {
+        setError(true);
+        setLogining(false);
+      });
   };
 
   const checkValidation = (onValid: () => void) => {
@@ -99,13 +99,14 @@ export const Login: React.FC = () => {
     if (!validatedLogin.isValid) {
       setLoginError(validatedLogin.errorMessage);
     }
-     if (!validatedPassword.isValid) {
+    if (!validatedPassword.isValid) {
       setPasswordError(validatedPassword.errorMessage);
     }
 
     if (validatedPassword.isValid && validatedLogin.isValid) {
       onValid();
-    }}
+    }
+  }
 
   if (logining) {
     return (
@@ -113,50 +114,54 @@ export const Login: React.FC = () => {
     )
   }
   return (
-    <View style={styles.container}>
-      <View
-      style={styles.loginBlock}
-    >
-      {error && (
-        <Text style={{ color: 'tomato' }}>Something has wrong, try again later</Text>
-      )}
-      <TextField
-        onChangeText={(value: string) => {
-          setUserName(value);
-          setLoginError('');
-        }}
-        errorMessage={loginError}
-        value={userName}
-        placeholder="User Name"
-        onSubmitEditing={() => {
-          passwordInputRef.current?.focus?.();
-        }}
-      />
-      <TextField
-        onChangeText={(value: string) => {
-          setPassword(value);
-          setPasswordError('');
-        }}
-        errorMessage={passwordError}
-        value={password}
-        placeholder="Password"
-        inputRef={input => {
-          passwordInputRef.current = input;
-        }}
-      />
-      <View style={styles.buttonsBlock}>
-        <Button
-          onPress={() => checkValidation(onLogIn)}
-          disabled={!!loginError || !!passwordError}
-          title="Log in"
-        />
-        <Button
-          onPress={() => checkValidation(onSignIn)}
-          disabled={!!loginError || !!passwordError}
-          title="Sign in"
-        />
+    <TouchableWithoutFeedback
+      onPress={Keyboard.dismiss}
+      accessible={false}>
+      <View style={styles.container}>
+        <View
+          style={styles.loginBlock}
+        >
+          {error && (
+            <Text style={{ color: 'tomato' }}>Something has wrong, try again later</Text>
+          )}
+          <TextField
+            onChangeText={(value: string) => {
+              setUserName(value);
+              setLoginError('');
+            }}
+            errorMessage={loginError}
+            value={userName}
+            placeholder="User Name"
+            onSubmitEditing={() => {
+              passwordInputRef.current?.focus?.();
+            }}
+          />
+          <TextField
+            onChangeText={(value: string) => {
+              setPassword(value);
+              setPasswordError('');
+            }}
+            errorMessage={passwordError}
+            value={password}
+            placeholder="Password"
+            inputRef={input => {
+              passwordInputRef.current = input;
+            }}
+          />
+          <View style={styles.buttonsBlock}>
+            <Button
+              onPress={() => checkValidation(onLogIn)}
+              disabled={!!loginError || !!passwordError}
+              title="Log in"
+            />
+            <Button
+              onPress={() => checkValidation(onSignIn)}
+              disabled={!!loginError || !!passwordError}
+              title="Sign in"
+            />
+          </View>
+        </View>
       </View>
-    </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
