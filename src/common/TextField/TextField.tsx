@@ -9,6 +9,7 @@ type TextFieldProps = {
   maxLength?: number,
   errorMessage?: string,
   props?: any,
+  disabled?: boolean,
 }
 
 const styles = StyleSheet.create({
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 export const TextField: React.FC<TextFieldProps> = (
-  { onChangeText, value, style, placeholder, multiline, maxLength, errorMessage, ...props},
+  { onChangeText, value, style, placeholder, multiline, maxLength, errorMessage, disabled, ...props},
   ) => (
     <View style={styles.container}>
       <TextInput
@@ -42,6 +43,7 @@ export const TextField: React.FC<TextFieldProps> = (
         ...styles.textInput,
         ...(style?.textInput || {}),
       }}
+      editable={!disabled}
       {...props}
       />
       {!!errorMessage && (
