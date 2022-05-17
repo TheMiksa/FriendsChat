@@ -10,7 +10,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
 import styles from './Login.styles';
 import { Loading } from '../common/Loading/Loading';
-import { loginValidator } from '../helpers/heplers';
+import { loginValidator, passwordValidator } from '../helpers/heplers';
 import { Button } from '../common/Button/Button';
 
 type LoginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
@@ -50,10 +50,17 @@ export const Login: React.FC = () => {
 
   const onSignIn = () => {
     const validatedLogin = loginValidator(userName);
-    if (validatedLogin.isValid) {
-      console.log('signing in----');
-    } else {
+    const validatedPassword = passwordValidator(password, true);
+
+    if (!validatedLogin.isValid) {
       setLoginError(validatedLogin.errorMessage);
+    }
+     if (!validatedPassword.isValid) {
+      setPasswordError(validatedPassword.errorMessage);
+    }
+
+    if (validatedPassword.isValid && validatedLogin.isValid) {
+      console.log('signing in----');
     }
   };
 
