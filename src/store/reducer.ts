@@ -14,6 +14,12 @@ export const userReducer = (store = userStore, action: Action) => {
       userName,
     };
     }
+    case 'LOG_OUT': {
+      return {
+        ...store,
+        userName: '',
+      };
+    }
     default:
       return {
         ...store,

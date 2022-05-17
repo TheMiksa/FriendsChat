@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HomeHeader } from './src/headers/HomeHeader/HomeHeader';
 
 export type RootStackParamList = {
   Home: undefined,
@@ -20,7 +21,15 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home'>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen 
+          name="Home" 
+          component={Home}
+          options={{
+            header: () => (
+              <HomeHeader />
+            ),
+          }} 
+          />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

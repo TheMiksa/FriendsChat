@@ -45,7 +45,7 @@ type Message2 = {
 };
 
 
-type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
+export type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
