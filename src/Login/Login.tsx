@@ -7,7 +7,7 @@ import { userSelector } from '../store/selectors';
 import type { RootStackParamList } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { getFirestore, setDoc, doc } from 'firebase/firestore';
+import { getFirestore, setDoc, doc, collection, getDoc } from 'firebase/firestore';
 import styles from './Login.styles';
 import { Loading } from '../common/Loading/Loading';
 import { loginValidator, passwordValidator } from '../helpers/heplers';
@@ -29,18 +29,28 @@ export const Login: React.FC = () => {
   const navigation = useNavigation<LoginScreenProps>();
 
   const onLogIn = () => {
-
     setLogining(true);
+
     const firestore = getFirestore();
+    const userRef = doc(firestore, "users", userName);
+  
+    getDoc(userRef).
+    then(snap => {
+      if  (snap.exists()) {
 
-    setDoc(doc(firestore, "users", userName), {
-      userName,
-      password,
-    }).
-    then(() => {
-      dispatch(logIn({ userName }));
+        if (snap.data()?.password === password) {
 
-      navigation.goBack();
+          dispatch(logIn({ userName }));   
+          navigation.goBack();
+
+        } else {
+          setLogining(false);
+          setPasswordError('Password is not correct');
+        }
+      } else {
+        setLogining(false);
+        setLoginError(`There is no user ${userName}`);
+      }
     }).
     catch(() => {
       setError(true);
@@ -49,7 +59,35 @@ export const Login: React.FC = () => {
   };
 
   const onSignIn = () => {
-      console.log('signing in----');
+    setLogining(true);
+
+    const firestore = getFirestore();
+    const userRef = doc(firestore, "users", userName);
+  
+    getDoc(userRef).
+    then(snap => {
+      if  (snap.exists()) {
+          setLogining(false);
+          setLoginError(`User name ${userName} has been already taken`);
+      } else {
+        setDoc(userRef, {
+          userName,
+          password,
+        }).
+        then(() => {
+          dispatch(logIn({ userName }));
+          navigation.goBack();
+        }).
+        catch(() => {
+          setError(true);
+          setLogining(false);
+        });
+      }
+    }).
+    catch(() => {
+      setError(true);
+      setLogining(false);
+    });
   };
 
   const checkValidation = (onValid: () => void) => {
