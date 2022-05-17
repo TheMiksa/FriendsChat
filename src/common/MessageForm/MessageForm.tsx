@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const MessageForm = () => {
+export const MessageForm: React.FC = () => {
   const [message, setMessage] = useState<string>('');
 
   const user = useSelector(userSelector);
@@ -54,7 +54,7 @@ export const MessageForm = () => {
       <TextField
         onChangeText={setMessage}
         value={message}
-        style={{ container: styles.textFieldContainer, textInput: styles.textField }}
+        styles={{ container: styles.textFieldContainer, textInput: styles.textField }}
         multiline
       />
       <TouchableOpacity
