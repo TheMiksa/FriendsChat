@@ -49,6 +49,10 @@ export const Login: React.FC = () => {
   };
 
   const onSignIn = () => {
+      console.log('signing in----');
+  };
+
+  const checkValidation = (onValid: () => void) => {
     const validatedLogin = loginValidator(userName);
     const validatedPassword = passwordValidator(password, true);
 
@@ -60,9 +64,8 @@ export const Login: React.FC = () => {
     }
 
     if (validatedPassword.isValid && validatedLogin.isValid) {
-      console.log('signing in----');
-    }
-  };
+      onValid();
+    }}
 
   if (logining) {
     return (
@@ -97,12 +100,12 @@ export const Login: React.FC = () => {
       />
       <View style={styles.buttonsBlock}>
         <Button
-          onPress={onLogIn}
+          onPress={() => checkValidation(onLogIn)}
           disabled={!!loginError || !!passwordError}
           title="Log in"
         />
         <Button
-          onPress={onSignIn}
+          onPress={() => checkValidation(onSignIn)}
           disabled={!!loginError || !!passwordError}
           title="Sign in"
         />
