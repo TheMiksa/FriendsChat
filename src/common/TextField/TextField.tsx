@@ -1,18 +1,18 @@
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, TextInputProps, StyleProp, ViewStyle, TextStyle } from "react-native";
 
-type TextFieldProps = {
-  onChangeText: (value: string) => void,
-  value: string,
-  style?: { container?: object, errorMessage?: object, textInput?: object },
-  placeholder?: string,
-  multiline?: boolean,
-  maxLength?: number,
+type TextFieldProps = TextInputProps & {
+  styles?: {
+    container?: StyleProp<ViewStyle> | object,
+    errorMessage?: StyleProp<TextStyle> | object,
+    textInput?: StyleProp<TextStyle> | object,
+  },
+  style?: object,
   errorMessage?: string,
-  props?: any,
   disabled?: boolean,
-}
+  inputRef?: (input: any) => void,
+};
 
-const styles = StyleSheet.create({
+const ownStyles = StyleSheet.create({
   container: {
     margin: 5,
     width: 200,
@@ -30,30 +30,27 @@ const styles = StyleSheet.create({
 });
 
 export const TextField: React.FC<TextFieldProps> = (
-  { onChangeText, value, style, placeholder, multiline, maxLength, errorMessage, disabled, ...props},
+  { styles, style, errorMessage, disabled, inputRef, ...props },
   ) => (
     <View style={{
-      ...styles.container,
-      ...style?.container,
+      ...ownStyles.container,
+      ...(styles?.container || {}),
     }}>
       <TextInput
-      onChangeText={onChangeText}
-      value={value}
-      placeholder={placeholder}
-      multiline={multiline}
-      maxLength={maxLength}
       style={{
-        ...styles.textInput,
-        ...(style?.textInput || {}),
+        ...ownStyles.textInput,
+        ...(style || {}),
+        ...(styles?.textInput || {}),
       }}
       editable={!disabled}
+      ref={inputRef}
       {...props}
       />
       {!!errorMessage && (
         <Text
           style={{
-            ...styles.errorText,
-            ...(style?.errorMessage || {}),
+            ...ownStyles.errorText,
+            ...(styles?.errorMessage || {}),
           }}
         >
           {errorMessage}
@@ -61,3 +58,4 @@ export const TextField: React.FC<TextFieldProps> = (
       )}
     </View>
   );
+  

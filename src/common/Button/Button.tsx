@@ -4,6 +4,7 @@ type ButtonProps = {
   style?: { button?: object, text?: object },
   title?: string,
   disabled?: boolean,
+  children?: React.ReactNode,
   onPress: (value: any) => void,
 };
 
