@@ -120,7 +120,7 @@ export const Login: React.FC = () => {
       )}
       <TextField
         onChangeText={(value: string) => {
-          setUserName(value.trim());
+          setUserName(value);
           setLoginError('');
         }}
         errorMessage={loginError}
@@ -129,7 +129,7 @@ export const Login: React.FC = () => {
       />
       <TextField
         onChangeText={(value: string) => {
-          setPassword(value.trim());
+          setPassword(value);
           setPasswordError('');
         }}
         errorMessage={passwordError}
