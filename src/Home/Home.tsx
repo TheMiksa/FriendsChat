@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { forIn } from 'lodash';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { userSelector } from '../store/selectors';
 import { Loading } from '../common/Loading/Loading';
+import { ModaWindow } from '../common/ModalWindow/ModalWindow';
 
 
 const styles = StyleSheet.create({
@@ -48,8 +49,10 @@ type Message2 = {
 export type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
+  // Implement a message removign
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [fetching, setFetching] = useState<boolean>(true);
+  const [selectedMessageId, setSelectedMessageId] = useState<string>('');
   
   const user = useSelector(userSelector);
   const navigation = useNavigation<HomeScreenProps>();
@@ -81,8 +84,14 @@ export const Home: React.FC = () => {
       navigation.navigate('Login');
     }
   }, [user]);
+
+  const removeMessage: (messageId: string) => void = messageId => {
+    console.log('---remove message: ', messageId);
+    setSelectedMessageId('');
+  };
+
   
-  const NoMessages = (
+  const NoMessages: React.ReactElement = (
     <View style={styles.noMessage}>
       <Text>Nobody has sent message :(</Text>
     </View>
@@ -96,6 +105,13 @@ export const Home: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <ModaWindow
+        visible={!!selectedMessageId}
+        transparent
+        onPressOutside={() => setSelectedMessageId('')}
+        onLeftButtonPress={() => removeMessage(selectedMessageId)}
+        onRightButtonPress={() => setSelectedMessageId('')}
+      />
       <FlatList
         ListEmptyComponent={NoMessages}
         inverted
@@ -103,10 +119,16 @@ export const Home: React.FC = () => {
           flexGrow: 1,
         }}
         renderItem={(value) => {
-          const item: Message = value.item;
+          const message: Message = value.item;
 
           return (
-          <MessageItem item={item} />
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedMessageId(message.id);
+            }} // TODO: change to onLongPress
+          >
+            <MessageItem message={message} />
+          </TouchableOpacity>
         );
       }}
         data={messages}

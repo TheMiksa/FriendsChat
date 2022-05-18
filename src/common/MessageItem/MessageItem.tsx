@@ -13,20 +13,23 @@ const styles = StyleSheet.create({
 });
 
 type MessageItemProps = {
-  item: Message,
+  message: Message,
 }
 
-export const MessageItem: React.FC<MessageItemProps> = (props: MessageItemProps) => {
-  const { item } = props;
+export const MessageItem: React.FC<MessageItemProps> = (props) => {
+  const { message } = props;
+  // Move Time to right corner
+  // Change Time format
+  // Implement logic for switching between different time formats (with year, without year etc.)
 
   return (
     <View
-      key={item.id}
+      key={message.id}
       style={styles.container}
     >
-      <Text>{item.userName}:</Text>
-      <Text>{item.message}</Text>
-      <Text>{moment(item.msTime).format('YYYY MM DD : HH:MM:ss.SSS')}</Text>
+      <Text>{message.userName}:</Text>
+      <Text>{message.message}</Text>
+      <Text>{moment(message.msTime).format('YYYY MM DD : HH:MM:ss.SSS')}</Text>
     </View>
   );
 }
