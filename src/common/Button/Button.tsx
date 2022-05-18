@@ -4,8 +4,8 @@ type ButtonProps = {
   style?: { button?: object, text?: object },
   title?: string,
   disabled?: boolean,
-  children?: React.ReactNode,
-  onPress: (value: any) => void,
+  children?: React.ReactNode | string,
+  onPress: ((value: any) => void) | undefined, // check it
 };
 
 const styles = StyleSheet.create({
@@ -35,7 +35,11 @@ export const Button: React.FC<ButtonProps> = ({ style, disabled, title, children
       {title && !children && (
         <Text style={style?.text}>{title}</Text>
       )}
-      {children && children}
+      {children && !title && typeof children === 'string' ? (
+        <Text>{children}</Text>
+      ) : (
+        children
+      )}
     </TouchableOpacity>
     );
 };
