@@ -2,11 +2,10 @@ import { View, TextInput, Text, StyleSheet, TextInputProps, StyleProp, ViewStyle
 
 type TextFieldProps = TextInputProps & {
   styles?: {
-    container?: StyleProp<ViewStyle> | object,
-    errorMessage?: StyleProp<TextStyle> | object,
-    textInput?: StyleProp<TextStyle> | object,
+    container?: StyleProp<ViewStyle>,
+    errorMessage?: StyleProp<TextStyle>,
+    textInput?: StyleProp<TextStyle>,
   },
-  style?: object,
   errorMessage?: string,
   disabled?: boolean,
   inputRef?: (input: any) => void,
@@ -22,7 +21,7 @@ const ownStyles = StyleSheet.create({
     borderRadius: 2,
     padding: 4,
   },
-  errorText: {
+  errorMessage: {
     marginTop: 2,
     textAlign: 'center',
     color: 'tomato',
@@ -32,26 +31,16 @@ const ownStyles = StyleSheet.create({
 export const TextField: React.FC<TextFieldProps> = (
   { styles, style, errorMessage, disabled, inputRef, ...props },
   ) => (
-    <View style={{
-      ...ownStyles.container,
-      ...(styles?.container || {}),
-    }}>
+    <View style={[ownStyles.container, styles?.container]}>
       <TextInput
-      style={{
-        ...ownStyles.textInput,
-        ...(style || {}),
-        ...(styles?.textInput || {}),
-      }}
+      style={[ownStyles.textInput, style, styles?.textInput]}
       editable={!disabled}
       ref={inputRef}
       {...props}
       />
       {!!errorMessage && (
         <Text
-          style={{
-            ...ownStyles.errorText,
-            ...(styles?.errorMessage || {}),
-          }}
+          style={[ownStyles.errorMessage, styles?.errorMessage]}
         >
           {errorMessage}
         </Text>

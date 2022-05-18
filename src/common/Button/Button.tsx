@@ -1,14 +1,12 @@
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle, TextStyle, TouchableOpacityProps } from "react-native";
 
-type ButtonProps = {
-  style?: { button?: object, text?: object },
+type ButtonProps = TouchableOpacityProps & {
+  styles?: { button?: StyleProp<ViewStyle>, title?: StyleProp<TextStyle> },
   title?: string,
-  disabled?: boolean,
   children?: React.ReactNode | string,
-  onPress: ((value: any) => void) | undefined, // check it
 };
 
-const styles = StyleSheet.create({
+const ownStyles = StyleSheet.create({
   button: {
     backgroundColor: '#aeaee0',
     alignItems: 'center',
@@ -21,22 +19,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button: React.FC<ButtonProps> = ({ style, disabled, title, children, onPress }) => {
+export const Button: React.FC<ButtonProps> = ({ style, styles, disabled, title, children, ...props }) => {
   return (
     <TouchableOpacity
-      style={{
-        ...styles.button,
-        ...disabled ? { opacity: 0.3 } : {},
-        ...style?.button,
-      }}
-      onPress={onPress}
+      style={[
+        ownStyles.button,
+        styles?.button,
+        style,
+        disabled && { opacity: 0.3 },
+      ]}
       disabled={disabled}
+      { ...props }
     >
       {title && !children && (
-        <Text style={style?.text}>{title}</Text>
+        <Text style={styles?.title}>{title}</Text>
       )}
       {children && !title && typeof children === 'string' ? (
-        <Text>{children}</Text>
+        <Text style={styles?.title}>{children}</Text>
       ) : (
         children
       )}

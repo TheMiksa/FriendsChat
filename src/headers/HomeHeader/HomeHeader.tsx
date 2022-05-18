@@ -41,7 +41,7 @@ export const HomeHeader = () => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}><Text style={styles.title}>Chat room</Text></View>
-      <Button style={{ button: styles.button }} onPress={onLogOut} title="Log out" />
+      <Button styles={{ button: styles.button }} onPress={onLogOut} title="Log out" />
     </View>
   );
 };

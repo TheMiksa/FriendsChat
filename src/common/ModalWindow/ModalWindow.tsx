@@ -5,9 +5,9 @@ import {
   TouchableWithoutFeedback, 
   StyleProp, 
   ViewStyle, 
-  StyleSheet
+  StyleSheet,
+  TextStyle
  } from "react-native";
-import styles from "../../Login/Login.styles";
 import { Button } from '../Button/Button';
 
 type ModalWindowProps =  ModalProps & {
@@ -16,16 +16,16 @@ type ModalWindowProps =  ModalProps & {
   onRightButtonPress?: () => void,
   leftButtonTitle?: string,
   rightButtonTitle?: string,
-  styles?: { // add these styles
-    modal?: StyleProp<ViewStyle> | undefined, // check dif
-    container?: StyleProp<ViewStyle> | object, // check dif
-    leftButton?: StyleProp<ViewStyle> | undefined,
-    rightButton?:StyleProp<ViewStyle> | undefined,
+  styles?: {
+    modal?: StyleProp<ViewStyle>,
+    container?: StyleProp<ViewStyle>,
+    leftButton?: { button?: StyleProp<ViewStyle>, title?: StyleProp<TextStyle> },
+    rightButton?: { button?: StyleProp<ViewStyle>, title?: StyleProp<TextStyle> },
   },
 };
 
 const ownStyles = StyleSheet.create({
-  container: {
+  container: { // add other styles
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -49,30 +49,32 @@ export const ModaWindow: React.FC<ModalWindowProps> = (
   return (
     <Modal
       animationType={animationType || 'slide'}
-      style={StyleSheet.compose(style, (styles?.modal || {}))}
+      style={[style, styles?.modal]}
       { ...props }
     >
       <TouchableWithoutFeedback
         onPress={onPressOutside}
       >
         <View
-        style={StyleSheet.compose(ownStyles.container, (styles?.container || {}))}
+        style={[ownStyles.container, styles?.container]}
         >
           {children ? (
             children
           ) : (
-            <View>
+            <>
               <Button
                 onPress={onLeftButtonPress}
+                styles={styles?.leftButton}
               >
                 {leftButtonTitle || 'Cancel'}
               </Button>
               <Button
                 onPress={onRightButtonPress}
+                styles={styles?.rightButton}
               >
                 {rightButtonTitle || 'Confirm'}
               </Button>
-            </View>
+            </>
             )}
         </View>
       </TouchableWithoutFeedback>

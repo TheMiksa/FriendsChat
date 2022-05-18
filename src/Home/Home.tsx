@@ -59,7 +59,7 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
 
-    if (user.userName) {
+    if (true) { // user.userName
 
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
