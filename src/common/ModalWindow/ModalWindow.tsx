@@ -43,6 +43,7 @@ const ownStyles = StyleSheet.create({
     minHeight: 80,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 2,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   title: {
