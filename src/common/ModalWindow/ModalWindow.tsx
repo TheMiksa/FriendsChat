@@ -21,12 +21,13 @@ type ModalWindowProps =  ModalProps & {
   styles?: {
     modal?: StyleProp<ViewStyle>,
     container?: StyleProp<ViewStyle>,
+    modalCard?: StyleProp<ViewStyle>,
+    title?: StyleProp<TextStyle>,
     buttonsBock?: StyleProp<ViewStyle>,
     leftButton?:StyleProp<ViewStyle> ,
     leftButtonTitle?: StyleProp<TextStyle> ,
     rightButton?: StyleProp<ViewStyle>,
     rightButtonTitle?: StyleProp<TextStyle>,
-    title?: StyleProp<TextStyle>,
   },
 };
 
@@ -36,13 +37,21 @@ const ownStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonsBlock: {
-    flexDirection: 'row',
-    minWidth: 150,
+  modalCard: {
+    width: 150,
+    padding: 10,
     minHeight: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(240, 240, 240, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  title: {
+
+  },
+  buttonsBlock: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   leftButton: {
 
@@ -82,14 +91,16 @@ export const ModaWindow: React.FC<ModalWindowProps> = (
         onPress={onPressOutside}
       >
         <View
-        style={[ownStyles.container, styles?.container]}
+          style={[ownStyles.container, styles?.container]}
         >
           {children ? (
             children
           ) : (
-           <View>
+           <View
+            style={[ownStyles.modalCard, styles?.modalCard]}
+           >
              {title && (
-               <Text style={styles?.title}>{title}</Text>
+               <Text style={[ownStyles.title, styles?.title]}>{title}</Text>
              )}
              <View
               style={[ownStyles.buttonsBlock, styles?.buttonsBock]}
