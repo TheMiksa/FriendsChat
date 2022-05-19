@@ -36,14 +36,18 @@ const CustomDrawerContent = (props) => {
   };
 
   return (
-    <DrawerContentScrollView { ...props}>
-      <DrawerItemList { ...props } />
-      <Button
-        styles={{ button: { backgroundColor: 'rgba(55, 155, 115, 0.7)' } }} 
-        onPress={onLogOut} 
-        title="Log out" 
-      />
+    <View style={{
+      flex: 1,
+    }}>
+    <DrawerContentScrollView { ...props} >
+        <DrawerItemList {...props} />
     </DrawerContentScrollView>
+        <Button
+          styles={{ button: { backgroundColor: 'rgba(235, 85, 0, 0.7)' } }}
+          onPress={onLogOut}
+          title="Log out"
+        />
+    </View>
   )
 };
 
