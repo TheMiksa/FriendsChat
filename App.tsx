@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { initializeApp } from 'firebase/app';
 import { Login } from './src/Login/Login';
 import { Home } from './src/Home/Home';
@@ -7,6 +8,8 @@ import { store } from './src/store/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeHeader } from './src/headers/HomeHeader/HomeHeader';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View, Text } from 'react-native';
 
 export type RootStackParamList = {
   Home: undefined,
@@ -15,6 +18,13 @@ export type RootStackParamList = {
 
 initializeApp(firebaseConfig);
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator();
+
+const DrawHome = () => (
+  <View>
+    <Text>Draw Home!</Text>
+  </View>
+);
 
 export default function App() {
   return (
@@ -32,6 +42,9 @@ export default function App() {
           />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         </Stack.Navigator>
+        {/* <Drawer.Navigator>
+          <Drawer.Screen name='Home' component={DrawHome} />
+        </Drawer.Navigator> */}
       </NavigationContainer>
     </Provider>
   );
