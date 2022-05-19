@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   sendButton: {
-    backgroundColor: '#DDDFFF',
+    backgroundColor: '#ADBFFF',
     position: 'absolute',
     right: 0,
     height: '100%',
@@ -42,7 +42,7 @@ export const MessageForm: React.FC = () => {
     const database = getDatabase();
     const reference = ref(database, 'friends-chat/messages');
     push(reference, {
-      message: text,
+      message: text.trim(),
       userName,
       msTime,
     }).
@@ -59,7 +59,8 @@ export const MessageForm: React.FC = () => {
       />
       <TouchableOpacity
         onPress={() => sendMessage(user.userName, message, Date.now())}
-        style={styles.sendButton}
+        style={[styles.sendButton, { opacity: !message.trim() ? 0.2 : 1 }]}
+        disabled={!message.trim()}
       >
         <Text>Send</Text>
       </TouchableOpacity>
