@@ -5,11 +5,11 @@ import { Chat } from './src/Chat/Chat';
 import firebaseConfig from './src/firebase/firebaseConfig';
 import { Provider, useDispatch } from 'react-redux';
 import { store } from './src/store/store';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeHeader } from './src/headers/HomeHeader/HomeHeader';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Button } from './src/common/Button/Button';
 import { logOut } from './src/store/actions';
 import { Settings } from './src/Settings/Settings';
@@ -27,26 +27,27 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const onLogOut = () => {
+
+    props.navigation.closeDrawer();
     dispatch(logOut());
-    navigation.navigate('Login');
+    props.navigation.navigate('Login');
   };
 
   return (
     <View style={{
       flex: 1,
     }}>
-    <DrawerContentScrollView { ...props} >
+      <DrawerContentScrollView {...props} >
         <DrawerItemList {...props} />
-    </DrawerContentScrollView>
-        <Button
-          styles={{ button: { backgroundColor: 'rgba(235, 85, 0, 0.7)' } }}
-          onPress={onLogOut}
-          title="Log out"
-        />
+      </DrawerContentScrollView>
+      <Button
+        styles={{ button: { backgroundColor: 'rgba(235, 85, 0, 0.7)' } }}
+        onPress={onLogOut}
+        title="Log out"
+      />
     </View>
   )
 };
