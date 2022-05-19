@@ -58,7 +58,7 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
 
-    if (true) { // user.userName
+    if (user.userName) {
 
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
@@ -100,7 +100,7 @@ export const Home: React.FC = () => {
   
   const NoMessages: React.ReactElement = (
     <View style={styles.noMessage}>
-      <Text>Nobody has sent message :(</Text>
+      <Text>Nobody has sent message yet :(</Text>
     </View>
   )
 
