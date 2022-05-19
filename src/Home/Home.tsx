@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue, remove } from 'firebase/database';
 import { forIn } from 'lodash';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App';
@@ -49,7 +49,6 @@ type Message2 = {
 export type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
 export const Home: React.FC = () => {
-  // Implement a message removign
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [fetching, setFetching] = useState<boolean>(true);
   const [selectedMessageId, setSelectedMessageId] = useState<string>('');
@@ -86,8 +85,16 @@ export const Home: React.FC = () => {
   }, [user]);
 
   const removeMessage: (messageId: string) => void = messageId => {
-    console.log('---remove message: ', messageId);
-    setSelectedMessageId('');
+    const database = getDatabase();
+    const messageRef = ref(database, `${messagesRoute}/${messageId}`);
+    
+    remove(messageRef)
+    .then(() => {
+      setSelectedMessageId('');
+    }).
+    catch(() => {
+      console.log('---something has wrong with message removing!');
+    });
   };
 
   
@@ -111,6 +118,9 @@ export const Home: React.FC = () => {
         onPressOutside={() => setSelectedMessageId('')}
         onLeftButtonPress={() => removeMessage(selectedMessageId)}
         onRightButtonPress={() => setSelectedMessageId('')}
+        leftButtonTitle="Remove"
+        rightButtonTitle="Cancel"
+        title="Remove the message?"
       />
       <FlatList
         ListEmptyComponent={NoMessages}
