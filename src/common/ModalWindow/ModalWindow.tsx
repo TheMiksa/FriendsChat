@@ -113,7 +113,7 @@ export const ModaWindow: React.FC<ModalWindowProps> = (
                   title: StyleSheet.flatten([ownStyles.leftButtonTitle, styles?.leftButtonTitle]),
                 }}
               >
-                {leftButtonTitle || 'Cancel'}
+                {leftButtonTitle || 'Confirm'}
               </Button>
               <Button
                 onPress={onRightButtonPress}
@@ -122,7 +122,7 @@ export const ModaWindow: React.FC<ModalWindowProps> = (
                   title: StyleSheet.flatten([ownStyles.rightButtonTitle, styles?.rightButtonTitle]),
                 }}
               >
-                {rightButtonTitle || 'Confirm'}
+                {rightButtonTitle || 'Cancel'}
               </Button>
             </View>
            </View>
