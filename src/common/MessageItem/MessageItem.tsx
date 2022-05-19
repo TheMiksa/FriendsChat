@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import moment from "moment";
-import type { Message } from "../../Home/Home";
+import type { Message } from "../../Chat/Chat";
 
 const styles = StyleSheet.create({
   container: {

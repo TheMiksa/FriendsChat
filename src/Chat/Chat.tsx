@@ -46,19 +46,19 @@ type Message2 = {
 };
 
 
-export type HomeScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
+export type ChatScreenProps = NativeStackNavigationProp<RootStackParamList, 'Home'>
 
-export const Home: React.FC = () => {
+export const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [fetching, setFetching] = useState<boolean>(true);
   const [selectedMessageId, setSelectedMessageId] = useState<string>('');
   
   const user = useSelector(userSelector);
-  const navigation = useNavigation<HomeScreenProps>();
+  const navigation = useNavigation<ChatScreenProps>();
 
   useEffect(() => {
 
-    if (user.userName) {
+    if (true) { // user.userName
 
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
