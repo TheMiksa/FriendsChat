@@ -1,7 +1,12 @@
-import { StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle, TextStyle, TouchableOpacityProps } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle, TextStyle, TouchableOpacityProps, transformst } from "react-native";
 
 type ButtonProps = TouchableOpacityProps & {
-  styles?: { button?: StyleProp<ViewStyle>, title?: StyleProp<TextStyle> },
+  styles?: { 
+    button?: StyleProp<ViewStyle>, 
+    pressedButton?: StyleProp<ViewStyle>,
+    title?: StyleProp<TextStyle>,
+   },
   title?: string,
   children?: React.ReactNode | string,
 };
@@ -17,9 +22,23 @@ const ownStyles = StyleSheet.create({
     margin: 5,
     borderRadius: 2,
   },
+  pressedButton: {
+    transform: [{ scale: 0.9,  }],
+  },
 });
 
-export const Button: React.FC<ButtonProps> = ({ style, styles, disabled, title, children, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({
+  style, 
+  styles, 
+  disabled, 
+  title, 
+  children,
+  onPressIn,
+  onPressOut,
+  ...props
+ }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
   return (
     <TouchableOpacity
       style={[
@@ -27,8 +46,12 @@ export const Button: React.FC<ButtonProps> = ({ style, styles, disabled, title, 
         styles?.button,
         style,
         disabled && { opacity: 0.3 },
+        isPressed && ownStyles.pressedButton,
+        isPressed && styles?.pressedButton,
       ]}
       disabled={disabled}
+      onPressIn={() => setIsPressed(true)}
+      onPressOut={() => setIsPressed(false)}
       { ...props }
     >
       {title && !children && (
