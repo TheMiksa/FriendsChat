@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle, TextStyle, TouchableOpacityProps, transformst } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle, TextStyle, TouchableOpacityProps } from "react-native";
 
 type ButtonProps = TouchableOpacityProps & {
   styles?: { 
@@ -46,12 +46,17 @@ export const Button: React.FC<ButtonProps> = ({
         styles?.button,
         style,
         disabled && { opacity: 0.3 },
-        isPressed && ownStyles.pressedButton,
-        isPressed && styles?.pressedButton,
+        isPressed &&( styles?.pressedButton || ownStyles.pressedButton),
       ]}
       disabled={disabled}
-      onPressIn={() => setIsPressed(true)}
-      onPressOut={() => setIsPressed(false)}
+      onPressIn={event => {
+        setIsPressed(true);
+        onPressIn?.(event);
+      }}
+      onPressOut={event => {
+        setIsPressed(false);
+        onPressOut?.(event);
+      }}
       { ...props }
     >
       {title && !children && (
