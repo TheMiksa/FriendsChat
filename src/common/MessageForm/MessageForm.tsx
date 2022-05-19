@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   textField: {
     width: '100%',
     margin: 0,
+    maxHeight: 300,
     minHeight: 50,
     paddingRight: 65,
     paddingLeft: 5,
