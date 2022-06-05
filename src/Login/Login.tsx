@@ -162,7 +162,7 @@ export const Login: React.FC = () => {
           <View style={styles.buttonsBlock}>
             <Button
               onPress={() => checkValidation(onLogIn)}
-              disabled={!!loginError || !!passwordError}
+              disabled={!!loginError  && loginError !== `User name ${userName} has been already taken` || !!passwordError}
               title="Log in"
               style={{
                 backgroundColor: theme.primaryBtnBackgroundColor,
