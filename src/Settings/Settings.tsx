@@ -1,12 +1,13 @@
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext, useState } from "react";
 import { View, Text, StyleSheet, Switch } from "react-native";
+import { ThemeContext } from "../../App";
 
 const styles = StyleSheet.create({
   container: {
     margin: 10,
     padding: 10,
     flex: 1,
-    backgroundColor: '#DDD',
     borderRadius: 5,
   },
   themeContainer: {
@@ -18,17 +19,25 @@ const styles = StyleSheet.create({
 });
 
 export const Settings = () => {
-  const [isEnabled, setIsenabled] = useState<boolean>(false);
+  const { theme, setTheme } = useContext(ThemeContext);
 
-  const onValueChange: (value: boolean) => void = () => {
+  const [isEnabled, setIsEnabled] = useState<boolean>(theme.themeType === 'dark');
+
+  const onValueChange: (value: boolean) => void = (value) => {
     // do something;
-    setIsenabled(!isEnabled);
+      const newTheme = value ? 'dark' : 'light';
+      setTheme?.(newTheme);
+      setIsEnabled(value);
+      
   };
-
+  
+  console.log('theme.secondaryBackgroundColor: ', theme.secondaryBackgroundColor);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {
+      backgroundColor: theme.secondaryBackgroundColor,
+    }]}>
       <View style={styles.themeContainer}>
-        <Text>Dark Theme:</Text>
+        <Text>{theme.themeType} Theme:</Text>
         <Switch 
           onValueChange={onValueChange}
           value={isEnabled}

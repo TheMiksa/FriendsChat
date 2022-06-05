@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { getDatabase, ref, onValue, remove } from 'firebase/database';
 import { forIn } from 'lodash';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App';
+import { RootStackParamList, ThemeContext } from '../../App';
 import { MessageForm } from '../common/MessageForm/MessageForm';
 import { MessageItem } from '../common/MessageItem/MessageItem';
 import { messagesRoute } from '../constants';
@@ -52,6 +52,7 @@ export const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [fetching, setFetching] = useState<boolean>(true);
   const [selectedMessageId, setSelectedMessageId] = useState<string>('');
+  const { theme } = useContext(ThemeContext);
   
   const user = useSelector(userSelector);
   const navigation = useNavigation<ChatScreenProps>();
@@ -142,7 +143,9 @@ export const Chat: React.FC = () => {
         );
       }}
         data={messages}
-        style={styles.messageList}
+        style={[styles.messageList, {
+          backgroundColor: theme.secondaryBackgroundColor,
+        }]}
       />
       <MessageForm />
     <StatusBar style="auto" />

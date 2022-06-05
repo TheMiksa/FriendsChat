@@ -1,10 +1,10 @@
 import { Text, View, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { TextField } from '../common/TextField/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { logIn } from '../store/actions';
 import { userSelector } from '../store/selectors';
-import type { RootStackParamList } from '../../App';
+import { RootStackParamList, ThemeContext } from '../../App';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { getFirestore, setDoc, doc, getDoc } from 'firebase/firestore';
@@ -22,6 +22,7 @@ export const Login: React.FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const { theme } = useContext(ThemeContext);
 
   const passwordInputRef = useRef<any>();
 
@@ -117,9 +118,13 @@ export const Login: React.FC = () => {
     <TouchableWithoutFeedback
       onPress={Keyboard.dismiss}
       accessible={false}>
-      <View style={styles.container}>
+      <View style={[styles.container, {
+        backgroundColor: theme.primaryBackgroundColor,
+      }]}>
         <View
-          style={styles.loginBlock}
+          style={[styles.loginBlock, {
+            backgroundColor: theme.secondaryBackgroundColor,
+          }]}
         >
           {error && (
             <Text style={{ color: 'tomato' }}>Something has wrong, try again later</Text>
@@ -135,6 +140,9 @@ export const Login: React.FC = () => {
             onSubmitEditing={() => {
               passwordInputRef.current?.focus?.();
             }}
+            style={{
+              backgroundColor: theme.themeType === 'dark' ? '#DDD' : '#FFF',
+            }}
           />
           <TextField
             onChangeText={(value: string) => {
@@ -147,17 +155,26 @@ export const Login: React.FC = () => {
             inputRef={input => {
               passwordInputRef.current = input;
             }}
+            style={{
+              backgroundColor: theme.themeType === 'dark' ? '#DDD' : '#FFF',
+            }}
           />
           <View style={styles.buttonsBlock}>
             <Button
               onPress={() => checkValidation(onLogIn)}
               disabled={!!loginError || !!passwordError}
               title="Log in"
+              style={{
+                backgroundColor: theme.primaryBtnBackgroundColor,
+              }}
             />
             <Button
               onPress={() => checkValidation(onSignIn)}
-              disabled={!!loginError || !!passwordError}
+              disabled={!!loginError && loginError !== `There is no user ${userName}` || !!passwordError}
               title="Sign in"
+              style={{
+                backgroundColor: theme.primaryBtnBackgroundColor,
+              }}
             />
           </View>
         </View>
