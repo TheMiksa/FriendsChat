@@ -59,7 +59,7 @@ export const Chat: React.FC = () => {
 
   useEffect(() => {
 
-    if (true) { // user.userName
+    if (true) { // TODO: update it for prod env (user.userName)
 
     const database = getDatabase();
     const messagesRef = ref(database, messagesRoute);
@@ -94,7 +94,7 @@ export const Chat: React.FC = () => {
       setSelectedMessageId('');
     }).
     catch(() => {
-      console.log('---something has wrong with message removing!');
+      console.log('something has wrong with message removing!');
     });
   };
 
@@ -134,9 +134,9 @@ export const Chat: React.FC = () => {
 
           return (
           <TouchableOpacity
-            onPress={() => {
+            onLongPress={() => {
               setSelectedMessageId(message.id);
-            }} // TODO: change to onLongPress
+            }}
           >
             <MessageItem message={message} />
           </TouchableOpacity>

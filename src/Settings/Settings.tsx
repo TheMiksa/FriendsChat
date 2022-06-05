@@ -24,14 +24,12 @@ export const Settings = () => {
   const [isEnabled, setIsEnabled] = useState<boolean>(theme.themeType === 'dark');
 
   const onValueChange: (value: boolean) => void = (value) => {
-    // do something;
-      const newTheme = value ? 'dark' : 'light';
-      setTheme?.(newTheme);
-      setIsEnabled(value);
-      
+    const newTheme = value ? 'dark' : 'light';
+
+    setTheme?.(newTheme);
+    setIsEnabled(value);
   };
   
-  console.log('theme.secondaryBackgroundColor: ', theme.secondaryBackgroundColor);
   return (
     <View style={[styles.container, {
       backgroundColor: theme.secondaryBackgroundColor,

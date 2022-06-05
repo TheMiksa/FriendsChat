@@ -1,13 +1,13 @@
 import 'react-native-gesture-handler';
 
-import { createContext, SetStateAction, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { View, useColorScheme } from 'react-native';
 import { Provider, useDispatch } from 'react-redux';
 import { initializeApp } from 'firebase/app';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerContentComponentProps } from '@react-navigation/drawer';
 
 import { Login } from './src/Login/Login';
 import { Chat } from './src/Chat/Chat';
@@ -42,7 +42,7 @@ export const ThemeContext = createContext<ThemeContextType>({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = (props) => {
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
 
@@ -135,7 +135,7 @@ export default function App() {
         setCurrentTheme(theme[themeType]);
       });
     } catch (error) {
-      console.log('App -> setTheme: ', error);
+      console.log('App -> setTheme -> error: ', error);
     }
   };
 
